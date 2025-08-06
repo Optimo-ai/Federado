@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Predicción - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-4 fw-bold text-center mb-5">
+                <i class="fas fa-calculator me-3"></i>
+                Predicción de Score Crediticio
+            </h1>
+        </div>
+    </div>
+    
+    {% if not results_html %}
+    <!-- Upload Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-upload me-2"></i>
+                        Subir Archivo CSV
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="upload-area mb-4" id="upload-area">
+                            <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                            <h5>Arrastra tu archivo CSV aquí</h5>
+                            <p class="text-muted">o haz clic para seleccionar</p>
+                            <input type="file" id="file-input" name="file" accept=".csv" 
+                                   class="d-none" onchange="updateFileName()">
+                            <div id="filename" class="mt-2 fw-bold text-primary"></div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-chart-line me-2"></i>
+                                Generar Predicciones
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Instructions -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Formato del Archivo CSV
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p>Tu archivo CSV debe contener las siguientes columnas:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Customer_Age</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Gender</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Dependent_count</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Education_Level</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Marital_Status</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Income_Category</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Card_Category</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Months_on_book</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Total_Relationship_Count</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Credit_Limit</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Total_Trans_Amt</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Total_Trans_Ct</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        <strong>Nota:</strong> La columna ID es opcional. Si no está presente, 
+                        se generarán IDs automáticamente.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <!-- Results Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Predicciones Completadas
+                    </h4>
+                    <span class="badge bg-light text-dark">
+                        {{ num_predictions }} registros procesados
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 d-flex justify-content-between align-items-center">
+                        <p class="mb-0">
+                            <i class="fas fa-info-circle text-info me-2"></i>
+                            Las predicciones incluyen el score crediticio y la categoría de riesgo.
+                        </p>
+                        <a href="{{ url_for('main.download_file', filename=download_file) }}" 
+                           class="btn btn-outline-primary">
+                            <i class="fas fa-download me-2"></i>
+                            Descargar CSV
+                        </a>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        {{ results_html|safe }}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Risk Categories Legend -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>
+                        Categorías de Riesgo
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2 text-center">
+                            <div class="badge bg-success fs-6 mb-2">Excelente</div>
+                            <div class="small text-muted">750+</div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <div class="badge bg-primary fs-6 mb-2">Muy Bueno</div>
+                            <div class="small text-muted">700-749</div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <div class="badge bg-info fs-6 mb-2">Bueno</div>
+                            <div class="small text-muted">650-699</div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <div class="badge bg-warning fs-6 mb-2">Regular</div>
+                            <div class="small text-muted">600-649</div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <div class="badge bg-danger fs-6 mb-2">Malo</div>
+                            <div class="small text-muted">550-599</div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <div class="badge bg-dark fs-6 mb-2">Muy Malo</div>
+                            <div class="small text-muted">&lt;550</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- New Prediction Button -->
+            <div class="text-center mt-4">
+                <a href="{{ url_for('main.predict') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus me-2"></i>
+                    Nueva Predicción
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updateFileName() {
+    const fileInput = document.getElementById('file-input');
+    const filenameDiv = document.getElementById('filename');
+    
+    if (fileInput.files.length > 0) {
+        const fileName = fileInput.files[0].name;
+        filenameDiv.textContent = `Archivo seleccionado: ${fileName}`;
+        filenameDiv.classList.add('text-success');
+    }
+}
+</script>
+{% endblock %}

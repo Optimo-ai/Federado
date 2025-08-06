@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-4 fw-bold text-center mb-5">
+                <i class="fas fa-chart-bar me-3"></i>
+                Resultados del Entrenamiento Federado
+            </h1>
+        </div>
+    </div>
+    
+    {% if no_results %}
+    <!-- No Results Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <div class="card">
+                <div class="card-body py-5">
+                    <i class="fas fa-exclamation-triangle fa-4x text-warning mb-4"></i>
+                    <h3>No hay resultados disponibles</h3>
+                    <p class="text-muted mb-4">
+                        Parece que aún no se han ejecutado los experimentos de aprendizaje federado.
+                    </p>
+                    <div class="alert alert-info">
+                        <h5>Para generar resultados:</h5>
+                        <ol class="text-start">
+                            <li>Ejecuta el preprocesamiento: <code>python scripts/preprocess_data.py</code></li>
+                            <li>Ejecuta los experimentos: <code>python federated/main.py</code></li>
+                            <li>Recarga esta página para ver los resultados</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <!-- Results Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-table me-2"></i>
+                        Resumen de Experimentos
+                        <span class="badge bg-light text-dark ms-2">{{ num_experiments }} experimentos</span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        {{ results_html|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Visualizations Section -->
+    {% if plots %}
+    <div class="row">
+        <div class="col-12">
+            <h2 class="fw-bold mb-4">
+                <i class="fas fa-chart-line me-2"></i>
+                Visualizaciones
+            </h2>
+        </div>
+    </div>
+    
+    <!-- MAE Comparison Plot -->
+    {% if plots.mae_comparison %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Comparación de MAE por Modelo y Estrategia</h5>
+                </div>
+                <div class="card-body">
+                    <div id="mae-plot" class="plot-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- R² Privacy Plot -->
+    {% if plots.r2_privacy %}
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">R² por Técnica de Privacidad</h5>
+                </div>
+                <div class="card-body">
+                    <div id="r2-plot" class="plot-container"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Training Time Plot -->
+        {% if plots.training_time %}
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">Tiempo de Entrenamiento</h5>
+                </div>
+                <div class="card-body">
+                    <div id="time-plot" class="plot-container"></div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    <!-- Performance Heatmap -->
+    {% if plots.performance_heatmap %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Heatmap de Rendimiento</h5>
+                </div>
+                <div class="card-body">
+                    <div id="heatmap-plot" class="plot-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% endif %}
+    
+    <!-- Summary Statistics -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-brain fa-2x text-primary mb-2"></i>
+                    <h5>Modelos</h5>
+                    <h3 class="text-primary">4</h3>
+                    <small class="text-muted">Ridge, Lasso, RF, MLP</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-sitemap fa-2x text-success mb-2"></i>
+                    <h5>Estrategias</h5>
+                    <h3 class="text-success">2</h3>
+                    <small class="text-muted">FedAvg, FedMed</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-shield-alt fa-2x text-warning mb-2"></i>
+                    <h5>Privacidad</h5>
+                    <h3 class="text-warning">4</h3>
+                    <small class="text-muted">Técnicas implementadas</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-users fa-2x text-info mb-2"></i>
+                    <h5>Clientes</h5>
+                    <h3 class="text-info">3</h3>
+                    <small class="text-muted">Bancos simulados</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if plots %}
+<script>
+    // Renderizar gráficas de Plotly
+    {% if plots.mae_comparison %}
+    Plotly.newPlot('mae-plot', {{ plots.mae_comparison|safe }});
+    {% endif %}
+    
+    {% if plots.r2_privacy %}
+    Plotly.newPlot('r2-plot', {{ plots.r2_privacy|safe }});
+    {% endif %}
+    
+    {% if plots.training_time %}
+    Plotly.newPlot('time-plot', {{ plots.training_time|safe }});
+    {% endif %}
+    
+    {% if plots.performance_heatmap %}
+    Plotly.newPlot('heatmap-plot', {{ plots.performance_heatmap|safe }});
+    {% endif %}
+</script>
+{% endif %}
+{% endblock %}

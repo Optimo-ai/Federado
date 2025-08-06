@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    Sistema de Aprendizaje Federado
+                </h1>
+                <p class="lead mb-4">
+                    Predicción de score crediticio con privacidad diferencial usando múltiples modelos 
+                    de machine learning en un entorno federado seguro.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{{ url_for('main.predict') }}" class="btn btn-light btn-lg">
+                        <i class="fas fa-calculator me-2"></i>Hacer Predicción
+                    </a>
+                    <a href="{{ url_for('main.results') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-chart-bar me-2"></i>Ver Resultados
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-network-wired" style="font-size: 8rem; opacity: 0.3;"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold">Características del Sistema</h2>
+                <p class="lead text-muted">
+                    Tecnología avanzada para predicción crediticia con máxima privacidad
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Privacidad Diferencial</h4>
+                    <p class="text-muted">
+                        Implementación de técnicas avanzadas de privacidad diferencial 
+                        incluyendo clipping, noising y combinaciones.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h4>Aprendizaje Federado</h4>
+                    <p class="text-muted">
+                        Entrenamiento distribuido usando Flower (FLWR) con múltiples 
+                        clientes simulados y estrategias de agregación.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>Múltiples Modelos</h4>
+                    <p class="text-muted">
+                        Ridge, Lasso, Random Forest y MLP (Redes Neuronales) 
+                        para máxima precisión en las predicciones.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How it Works Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold">¿Cómo Funciona?</h2>
+                <p class="lead text-muted">
+                    Proceso completo del sistema de aprendizaje federado
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 60px; height: 60px;">
+                        <span class="fw-bold">1</span>
+                    </div>
+                </div>
+                <h5>Preprocesamiento</h5>
+                <p class="text-muted">
+                    División del dataset en 3 clientes simulados con codificación 
+                    y normalización de características.
+                </p>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 60px; height: 60px;">
+                        <span class="fw-bold">2</span>
+                    </div>
+                </div>
+                <h5>Entrenamiento Federado</h5>
+                <p class="text-muted">
+                    Cada cliente entrena localmente y comparte parámetros 
+                    con técnicas de privacidad diferencial.
+                </p>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 60px; height: 60px;">
+                        <span class="fw-bold">3</span>
+                    </div>
+                </div>
+                <h5>Agregación</h5>
+                <p class="text-muted">
+                    El servidor agrega parámetros usando FedAvg o FedMed 
+                    para crear el modelo global.
+                </p>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="mb-3">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 60px; height: 60px;">
+                        <span class="fw-bold">4</span>
+                    </div>
+                </div>
+                <h5>Predicción</h5>
+                <p class="text-muted">
+                    El modelo final realiza predicciones de score crediticio 
+                    con categorización de riesgo.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technical Specs Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h3 class="fw-bold mb-4">Especificaciones Técnicas</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        <strong>Modelos:</strong> Ridge, Lasso, Random Forest, MLP
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        <strong>Agregación:</strong> FedAvg, FedMed
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        <strong>Privacidad:</strong> Clipping, Noising, Combinado
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        <strong>Métricas:</strong> MAE, MSE, R², Tiempo de entrenamiento
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        <strong>Framework:</strong> Flower (FLWR) para aprendizaje federado
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="col-lg-6">
+                <h3 class="fw-bold mb-4">Características del Dataset</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-database text-primary me-2"></i>
+                        <strong>Variables:</strong> Edad, Género, Educación, Ingresos
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-database text-primary me-2"></i>
+                        <strong>Objetivo:</strong> Score crediticio (300-850)
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-database text-primary me-2"></i>
+                        <strong>Clientes:</strong> 3 bancos simulados
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-database text-primary me-2"></i>
+                        <strong>Preprocesamiento:</strong> Codificación y normalización
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-database text-primary me-2"></i>
+                        <strong>División:</strong> 80% entrenamiento, 20% prueba
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Sección final: Requisitos del Proyecto -->
+<section class="py-5 border-top">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-4">Cumplimiento de Requisitos del Proyecto</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <h5 class="fw-bold">Modelos de Clasificación Entrenados</h5>
+        <ul>
+          <li>Nearest Neighbors Classifier</li>
+          <li>Random Forest Classifier</li>
+          <li>Naive Bayes Classifier</li>
+          <li>SVM (Support Vector Machine)</li>
+          <li>Neural Network MLP Classifier</li>
+          <li>Gaussian Process Classifier (GPC)</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h5 class="fw-bold">Métricas y Validación</h5>
+        <ul>
+          <li>Matriz de confusión</li>
+          <li>Precisión, Recall, F1-score, Accuracy</li>
+          <li>Comparación de desempeño entre modelos</li>
+          <li>Justificación del modelo óptimo</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-4">
+      <h5 class="fw-bold">Proceso de Predicción</h5>
+      <p>Los usuarios pueden subir un archivo .CSV con datos nuevos, que son procesados automáticamente (codificación y escalado) y evaluados por el modelo óptimo seleccionado. Los resultados se presentan categorizados por riesgo y pueden ser descargados en CSV.</p>
+    </div>
+  </div>
+</section>
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-4">¿Listo para Comenzar?</h2>
+        <p class="lead mb-4">
+            Sube tu archivo CSV y obtén predicciones de score crediticio 
+            usando nuestro modelo federado entrenado.
+        </p>
+        <a href="{{ url_for('main.predict') }}" class="btn btn-light btn-lg">
+            <i class="fas fa-upload me-2"></i>Subir Archivo CSV
+        </a>
+    </div>
+</section>
+{% endblock %}
